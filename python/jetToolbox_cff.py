@@ -202,6 +202,7 @@ def jetToolbox( proc, jetType, jetSequence, outputFile,
 			muLabel = 'slimmedMuons'
 			elLabel = 'slimmedElectrons'
 			pfCand = nameNewPFCollection if newPFCollection else 'packedPFCandidates'
+			print("DEBUG: using pfCand == " + pfCand)
 
 			if runOnMC:
 				## Filter out neutrinos from packed GenParticles
@@ -1319,8 +1320,14 @@ def jetToolbox( proc, jetType, jetSequence, outputFile,
 	###### Saving jet collections
 	if hasattr(proc, 'patJetPartons'): proc.patJetPartons.particles = genParticlesLabel
 
-        if dataTier.startswith("nanoAOD"): _addProcessAndTask( proc, mod["selPATJets"], cms.EDFilter("PATJetRefSelector", src = cms.InputTag(mod["PATJetswithUserData"]), cut = cms.string( Cut ) ) )
-        else: _addProcessAndTask( proc, mod["selPATJets"], selectedPatJets.clone( src = mod["PATJets"], cut = Cut ) )
+        if dataTier.startswith("nanoAOD"): 
+        	_addProcessAndTask(proc, mod["selPATJets"], cms.EDFilter("PATJetRefSelector", 
+        																src = cms.InputTag(mod["PATJetswithUserData"]), 
+        																cut = cms.string(Cut)
+        															)
+        						)
+        else:
+        	_addProcessAndTask(proc, mod["selPATJets"], selectedPatJets.clone( src = mod["PATJets"], cut = Cut ) )
 	elemToKeep += [ 'keep *_'+mod["selPATJets"]+'_*_*' ]
 	elemToKeep += [ 'drop *_'+mod["selPATJets"]+'_calo*_*' ]
 	elemToKeep += [ 'drop *_'+mod["selPATJets"]+'_tagInfos_*' ]

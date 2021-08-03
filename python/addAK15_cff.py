@@ -253,6 +253,12 @@ def setupAK15(process, runOnMC=False, path=None, runParticleNet=False, runPartic
     else:
         getattr(process, path).associate(process.ak15Task)
 
+    finalJetsAK15 = cms.EDFilter("PATJetRefSelector",
+        src = cms.InputTag("updatedJetsAK8WithUserData"),
+        cut = cms.string("pt > 170")
+    )
+
+
 #
 # Functions for cmsDriver.py --customise
 #
@@ -264,14 +270,14 @@ def setupPFNanoAK15_data(process):
         process.patJetsPuppi.JetPartonMapSource = cms.InputTag("")
         process.patJetsPuppi.JetFlavourInfoSource = cms.InputTag("")
     setupAK15(process, runOnMC=False, runParticleNet=False, runParticleNetMD=True)
-    addPFCands(process, runOnMC=False, saveAll=True, addAK4=True, addAK8=True, addAK15=True)
+    addPFCands(process, runOnMC=False, saveAll=False, addAK4=True, addAK8=True, addAK15=True)
     add_BTV(process, runOnMC=False)
     process.NANOAODSIMoutput.fakeNameForCrab = cms.untracked.bool(True)  # needed for crab publication
     return process
 
 def setupPFNanoAK15_mc(process):
     setupAK15(process, runOnMC=True, runParticleNet=False, runParticleNetMD=True)
-    addPFCands(process, runOnMC=True, saveAll=True, addAK4=True, addAK8=True, addAK15=True)
+    addPFCands(process, runOnMC=True, saveAll=False, addAK4=True, addAK8=True, addAK15=True)
     add_BTV(process, runOnMC=True)
     process.NANOAODSIMoutput.fakeNameForCrab = cms.untracked.bool(True)  # needed for crab publication
     return process
