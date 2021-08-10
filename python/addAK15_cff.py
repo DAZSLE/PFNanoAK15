@@ -25,6 +25,12 @@ def setupAK15(process, runOnMC=False, path=None, runParticleNet=False, runPartic
     ]
     JETCorrLevels = ['L2Relative', 'L3Absolute', 'L2L3Residual']
 
+    print("Flag 1")
+    for aatt in dir(process):
+        if "ak4" in aatt.lower():
+            print(aatt)
+
+
     from PhysicsTools.PFNanoAK15.jetToolbox_cff import jetToolbox
     jetToolbox(process, 'ak15', 'dummySeqAK15', 'noOutput',
         PUMethod='Puppi', JETCorrPayload='AK8PFPuppi', JETCorrLevels=JETCorrLevels,
@@ -36,6 +42,11 @@ def setupAK15(process, runOnMC=False, path=None, runParticleNet=False, runPartic
         addEnergyCorrFunc=True, ecfType = "N", ecfBeta = 1.0, ecfN3 = False,
         addEnergyCorrFuncSubjets=True, ecfSubjetType = "N", ecfSubjetBeta = 1.0, ecfSubjetN3 = False,
     )
+
+    print("\nFlag 2")
+    for aatt in dir(process):
+        if "ak4" in aatt.lower():
+            print(aatt)
 
     if runOnMC:
         process.ak15GenJetsNoNu.jetPtMin = 100
@@ -66,7 +77,7 @@ def setupAK15(process, runOnMC=False, path=None, runParticleNet=False, runPartic
 
     # DEBUG : Print process attributes with AK15 in name
     for aatt in dir(process):
-        if "AK15" in aatt:
+        if "ak15" in aatt.lower() or "ak4" in aatt.lower():
             print(aatt)
     print("\n")
     for aatt in dir(process):
